@@ -22,10 +22,12 @@ int main() {
     auto collection = db["restaurants"];
     // end-db-coll
 
+    // Inserts a document that stores a "name" value of "Mongo's Burgers" into the collection
     // start-insert-one
     auto result = collection.insert_one(make_document(kvp("name", "Mongo's Burgers")));
     // end-insert-one
 
+    // Inserts documents representing restaurants into the collection
     // start-insert-many
     std::vector<bsoncxx::document::value> restaurants;
     restaurants.push_back(make_document(kvp("name", "Mongo's Burgers")));
@@ -34,17 +36,17 @@ int main() {
     auto result = collection.insert_many(restaurants);
     // end-insert-many
 
-    // start-cursor
-    auto cursor = collection.find(make_document(kvp("founded_year", 1970)));
-    for(auto&& doc : cursor) {
-        std::cout << bsoncxx::to_json(doc) << "\n" << std::endl;
-    }
-    // end-cursor
- 
-   // start-modify
-    mongocxx::options::find opts;
-    opts.limit(5);
-    auto cursor = collection.find(make_document(kvp("number_of_employees", 1000)), opts);
-   // end-modify
+    // Inserts multiple documents and instructs the insert operation to skip document-level validation
+    // start-modify
+    std::vector<bsoncxx::document::value> docs;
+    docs.push_back(make_document(kvp("name", "Mongo's Burgers")));
+    docs.push_back(make_document(kvp("name", "Mongo's Pizza")));
+    docs.push_back(make_document(kvp("name", "Mongo's Tacos")));
+
+    mongocxx::v_noabi::options::insert opts;
+    opts.bypass_document_validation(true);
+
+    auto result = collection.insert_many(docs, opts);
+    // end-modify
 
 }
