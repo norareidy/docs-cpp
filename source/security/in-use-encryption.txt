@@ -117,13 +117,11 @@ Configure Automatic CSFLE
 Automatic CSFLE allows you to perform encrypted read and write operations
 without specifying how to encrypt fields. Automatic encryption relies
 on the ``mongocryptd`` binary, which is pre-packaged with MongoDB Enterprise
-Server.
-
-``mongocryptd`` can either be started separately from the driver, or left to spawn
+Server. You can start ``mongocryptd`` separately from the driver or allow it to spawn
 automatically when encryption is used.
 
-To run mongocryptd separately, pass the ``mongocryptdBypassSpawn`` flag to the
-client's auto encryption options:
+To run ``mongocryptd`` separately from the driver, pass the ``mongocryptdBypassSpawn``
+flag to the client's auto encryption options as shown in the following code:
 
 .. code-block:: cpp
 
